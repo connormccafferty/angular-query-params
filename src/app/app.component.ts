@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -6,9 +6,10 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   ofVersion: string = '';
   queryParam: string = '';
+
 
   constructor(private route: ActivatedRoute) {
     if (typeof fin !== 'undefined') {
@@ -19,14 +20,17 @@ export class AppComponent {
     }
   }
 
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.queryParam = params['test'];
+    });
+  }
+
   async init() {
     //get a reference to the current Application.
     const app = await fin.Application.getCurrent();
     const win = await fin.Window.getCurrent();
-    this.route.queryParams.subscribe(params => {
-      console.log(params);
-      this.queryParam = params['test'];
-    });
+
     this.ofVersion = await fin.System.getVersion();
 
     //Only launch new windows from the main window.
