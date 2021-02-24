@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -7,10 +8,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   ofVersion: string = '';
+  queryParam: string = '';
 
-  constructor() {
+  constructor(private route: ActivatedRoute) {
     if (typeof fin !== 'undefined') {
       this.init();
+
     } else {
       this.ofVersion = 'The fin API is not available - you are probably running in a browser.';
     }
@@ -20,7 +23,10 @@ export class AppComponent {
     //get a reference to the current Application.
     const app = await fin.Application.getCurrent();
     const win = await fin.Window.getCurrent();
-
+    this.route.queryParams.subscribe(params => {
+      console.log(params);
+      this.queryParam = params['test'];
+    });
     this.ofVersion = await fin.System.getVersion();
 
     //Only launch new windows from the main window.

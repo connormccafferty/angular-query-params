@@ -1,0 +1,12 @@
+import { NgModule } from '@angular/core';
+import { AppComponent } from './app.component';
+import { Routes, RouterModule } from '@angular/router'; // CLI imports router
+
+const routes: Routes = [{ path: 'app', component: AppComponent }]; // sets up routes constant where you define your routes
+
+// configures NgModule imports and exports
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
